@@ -6,9 +6,26 @@ export async function getStaticPaths() {
     'https://jsonplaceholder.typicode.com/posts?_page=1'
   )
   const postList = await response.json()
+  //こういう受け渡し方
+  // const postList = [
+  //   {
+         //このidがpostディレクトリの[id]に対応している。
+  //     id: ['aa']
+  //   },
+  //   {
+  //     id: ['bb']
+  //   },
+  //   {
+  //     id: ['cc']
+  //   },
+  //   {
+  //     id: ['dd']
+  //   },
+  // ];
   return {
     paths: postList.map((post) => {
       return {
+        //ここのparamsがgetStaticPropsの引数のparams
         params: {
           id: `${post.id}`,
         },
@@ -18,6 +35,11 @@ export async function getStaticPaths() {
   }
 }
 
+//getStaticPathsの設定でreturnした
+// params: {
+//   id: `${post.id}`,
+// },
+//に対応してデータをfetchしたい
 export async function getStaticProps({ params }) {
   // fetch single post detail
   const response = await fetch(
